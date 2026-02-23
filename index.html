@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>banglaict-spsiamahmed</title>
+  
+
+<meta name="description" content="BanglaICT by SP Siam Ahmed: ICT tutorials, programming guides, web development tips, and technology resources in Bangla.">
+  <meta name="keywords" content="Bangla ICT, SP Siam Ahmed, ICT tutorial, programming, web development, HTML, CSS, JavaScript, Bangladesh ICT">
+  <meta name="author" content="SP Siam Ahmed">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="sp.png">
+
+  <!-- Open Graph (Facebook, LinkedIn) -->
+  <meta property="og:title" content="BanglaICT – SP Siam Ahmed">
+  <meta property="og:description" content="Learn ICT, web development, and programming in Bangla with SP Siam Ahmed.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://github.com/spsiamahmed">
+  <meta property="og:image" content="https://yourwebsite.com/preview.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="BanglaICT – SP Siam Ahmed">
+  <meta name="twitter:description" content="ICT tutorials and web development learning in Bangla.">
+  <meta name="twitter:image" content="https://yourwebsite.com/preview.png">
+
+
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <!-- হেডার টপ -->
+    <div class="header-top">
+      <div class="font-controls">
+        <button onclick="window.changeFontSize('decrease')" class="font-btn"><i class="fas fa-minus-circle"></i></button>
+        <span class="font-size-indicator">অ</span>
+        <button onclick="window.changeFontSize('increase')" class="font-btn"><i class="fas fa-plus-circle"></i></button>
+      </div>
+      <button onclick="window.toggleDarkMode()" class="dark-mode-toggle">
+        <i class="fas fa-moon"></i> ডার্ক
+      </button>
+    </div>
+
+    <!-- হেডার কার্ড -->
+    <div class="card header-card">
+      <div class="streak-container">
+        <div class="streak-box">
+          <i class="fas fa-fire flame-icon"></i>
+          <span class="streak-count" id="streakCount">০</span>
+          <span class="streak-label">স্ট্রিক</span>
+        </div>
+        <div class="completion-badge" id="dailyBadge">
+          <i class="fas fa-medal"></i>
+        </div>
+      </div>
+      <div class="date-info">
+        <div class="current-date" id="currentDate">২৩ ফেব্রুয়ারি ২০২৬</div>
+        <div class="day-status" id="dayStatus">দিন <span id="currentDayNum">১</span></div>
+      </div>
+    </div>
+
+    <!-- ডেইলি প্রগ্রেস -->
+    <div class="daily-progress-card">
+      <div class="progress-label">
+        <span>আজকের অগ্রগতি</span>
+        <span id="dailyProgressPercent">০%</span>
+      </div>
+      <div class="progress-bar-container">
+        <div class="progress-bar-fill" id="dailyProgressBar" style="width: 0%"></div>
+      </div>
+    </div>
+
+    <!-- কাউন্টডাউন ব্লক -->
+    <div class="countdown-block">
+      <div class="countdown-title"><i class="fa-regular fa-clock"></i> পরবর্তী কার্যক্রম</div>
+      <div class="countdown-number" id="countdownDisplay">--:--:--</div>
+      <div id="nextActivityName" class="next-activity-name">লোড হচ্ছে...</div>
+      
+      <button class="reminder-btn" onclick="window.setReminder()">
+        <i class="fas fa-bell"></i> রিমাইন্ডার
+      </button>
+      
+      <div class="progress">
+        <div class="progress-fill" id="progressBar" style="width: 0%;"></div>
+      </div>
+      <div class="time-info">
+        <span><i class="fa-regular fa-hourglass-half"></i> <span id="nextStartTime">--:--</span></span>
+        <span><span id="nextDuration">--</span> মিনিট বাকি</span>
+      </div>
+    </div>
+
+    <!-- এখন + এরপর -->
+    <div class="row-double">
+      <div class="card now-card">
+        <div class="card-icon"><i class="fas fa-play-circle"></i></div>
+        <div class="card-content">
+          <div class="card-label">এখন চলছে</div>
+          <div class="card-title" id="nowActivity">--</div>
+          <div class="card-detail" id="nowDetail">--</div>
+        </div>
+      </div>
+      <div class="card next-card">
+        <div class="card-icon"><i class="fas fa-forward-step"></i></div>
+        <div class="card-content">
+          <div class="card-label">এরপর</div>
+          <div class="card-title" id="nextActivityShort">--</div>
+          <div class="card-detail" id="nextDetail">--</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- টাইমার মডাল -->
+    <div id="timerModal" class="timer-modal" style="display: none;">
+      <div class="timer-card">
+        <div class="timer-header">
+          <span id="currentSessionName">--</span>
+          <button onclick="window.closeTimer()" class="close-btn"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="timer-display" id="timerDisplay">25:00</div>
+        <div class="timer-controls">
+          <button onclick="window.startTimer()" class="timer-btn start"><i class="fas fa-play"></i></button>
+          <button onclick="window.pauseTimer()" class="timer-btn pause"><i class="fas fa-pause"></i></button>
+          <button onclick="window.resetTimer()" class="timer-btn reset"><i class="fas fa-undo"></i></button>
+        </div>
+        <div class="pomodoro-counter">
+          <span id="pomodoroCount">0</span> / 4 পোমোডোরো
+        </div>
+      </div>
+    </div>
+
+    <!-- টাইম অ্যানালাইসিস -->
+    <div class="analysis-card">
+      <h3><i class="fas fa-chart-pie"></i> আজকের সময় বিতরণ</h3>
+      <div class="analysis-bars">
+        <div class="analysis-item">
+          <span class="analysis-label">ICT</span>
+          <div class="analysis-bar-container">
+            <div class="analysis-bar ict-bar" id="ictBar" style="width: 0%"></div>
+          </div>
+          <span class="analysis-time" id="ictTime">০ মিনিট</span>
+        </div>
+        <div class="analysis-item">
+          <span class="analysis-label">বাংলা</span>
+          <div class="analysis-bar-container">
+            <div class="analysis-bar bangla-bar" id="banglaBar" style="width: 0%"></div>
+          </div>
+          <span class="analysis-time" id="banglaTime">০ মিনিট</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- হিটম্যাপ -->
+    <div class="heatmap-card">
+      <h3><i class="fas fa-calendar-alt"></i> সপ্তাহের অগ্রগতি</h3>
+      <div class="heatmap-grid" id="heatmapGrid"></div>
+    </div>
+
+    <!-- রুটিন টেবিল -->
+    <div class="card schedule-card">
+      <div class="card-header">
+        <h3><i class="fa-solid fa-table-cells-large"></i> আজকের রুটিন</h3>
+        <span class="badge" id="todayDateBadge">--</span>
+      </div>
+      <div id="slotsTable" class="time-table">
+        <div style="text-align: center; padding: 20px;">লোড হচ্ছে...</div>
+      </div>
+    </div>
+
+    <!-- রিভিউ কার্ড -->
+    <div class="review-card">
+      <h3><i class="fas fa-star"></i> আজকের রিভিউ</h3>
+      <div class="rating-stars" id="ratingStars">
+        <i class="fa-regular fa-star" onclick="window.setRating(1)"></i>
+        <i class="fa-regular fa-star" onclick="window.setRating(2)"></i>
+        <i class="fa-regular fa-star" onclick="window.setRating(3)"></i>
+        <i class="fa-regular fa-star" onclick="window.setRating(4)"></i>
+        <i class="fa-regular fa-star" onclick="window.setRating(5)"></i>
+      </div>
+      <textarea id="reviewText" placeholder="আজকের পড়া সম্পর্কে মন্তব্য..."></textarea>
+      <button onclick="window.saveReview()" class="save-review-btn">সেভ করুন</button>
+    </div>
+
+    <!-- ডে সিলেক্টর - সব আইডি সহ -->
+    <div class="day-selector">
+      <button class="selector-btn" id="prevDayBtn" onclick="window.changeDay('prev')">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+      <span class="day-indicator" id="dayIndicator">দিন ১</span>
+      <button class="selector-btn" id="nextDayBtn" onclick="window.changeDay('next')">
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
+    <div class="selected-date" id="selectedDateLabel">২৩ ফেব্রুয়ারি ২০২৬</div>
+
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
